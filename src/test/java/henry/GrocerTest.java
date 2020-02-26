@@ -94,6 +94,25 @@ public class GrocerTest {
         long basketPrice = grocer.priceABasket("2 tins of soup and 1 loaf of bread, bought today,"); // 130 + 80 - 40
         Assert.assertEquals(170,basketPrice);
     }
+    @Test
+    public void givenSixSoupThreeBread_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("6 tins of soup and 3 loaves of bread, bought today,"); // 390 + 240 - 120
+        Assert.assertEquals(510,basketPrice);
+    }
+    @Test
+    public void givenSixSoupTwoBread_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("6 tins of soup and 2 loaves of bread, bought today,"); // 390 + 160 - 80
+        Assert.assertEquals(470,basketPrice);
+    }
+    @Test
+    public void givenSixSoupFourBread_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("6 tins of soup and 4 loaves of bread, bought today,"); // 390 + 320 - 120
+        Assert.assertEquals(590,basketPrice);
+    }
+
 
 
 
