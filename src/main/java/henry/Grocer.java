@@ -12,7 +12,8 @@ public class Grocer {
                 .replaceAll("tin.*soup",":soup,")
                 .replaceAll("loa.*bread",":bread,")
                 .replaceAll("bot.*milk",":milk,")
-                .replaceAll("apple",":apple,")
+                .replaceAll("apples?",":apple,")
+//                .replaceAll("apple",":apple,")
                 .replaceAll(" ","")
                 ;
 
