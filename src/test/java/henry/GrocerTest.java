@@ -149,6 +149,12 @@ public class GrocerTest {
         String priceString = grocer.priceABasketWrapper("1 tin of soup");
         Assert.assertEquals("0.65",priceString);
     }
+    @Test
+    public void givenOneHundredSoup_whenGetBasketPrice_thenTwoDecimalPlaces(){
+        Grocer grocer = new Grocer();
+        String priceString = grocer.priceABasketWrapper("100 tins of soup");
+        Assert.assertEquals("65.00",priceString);
+    }
 
 
 
