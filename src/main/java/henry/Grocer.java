@@ -10,6 +10,8 @@ public class Grocer {
     final int APPLE_PRICE = 10;
     final int APPLE_PRICE_DISCOUNTED = 9;
     final int ONE_DAY = 86400000;
+    final int BREAD_DISCOUNT_PERIOD = 7;
+    final int BREAD_PRICE_REDUCTION = 40;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public long priceABasket(String freeText) {
@@ -17,7 +19,7 @@ public class Grocer {
         freeText = freeText.replaceAll(", bought in.*", "");
         String tokenizedBasket = getTokenizedBasket(freeText);
         Map<String, Long> orderMap = getOrderMap(tokenizedBasket);
-        long basketCost = getBasketCost(orderMap,dayOffset);
+        long basketCost = getBasketCost(orderMap, dayOffset);
         return basketCost;
     }
 
@@ -68,6 +70,7 @@ public class Grocer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private long getBasketCost(Map<String, Long> orderMap, long dayOffset) {
+        long breadDiscount = getBreadDiscount(orderMap, dayOffset);
         long applePrice = getApplePrice(dayOffset);
         long basketCost = 0;
         Collection<String> cs = orderMap.keySet();
@@ -86,7 +89,7 @@ public class Grocer {
                 basketCost = basketCost + itemCount * applePrice;
             }
         }
-        return basketCost;
+        return basketCost - breadDiscount;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,6 +114,30 @@ public class Grocer {
         c.set(Calendar.DATE, c.getMaximum(Calendar.DATE));
         Date nextDate = c.getTime();
         return nextDate;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private long getBreadDiscount(Map<String, Long> orderLines, long dayOffset) {
+        if (dayOffset >= BREAD_DISCOUNT_PERIOD) {
+            return 0;
+        }
+        long breadDiscount = 0;
+        long breadCount = 0;
+        long soupCount = 0;
+        try {
+            soupCount = orderLines.get("soup");
+            breadCount = orderLines.get("bread");
+        } catch (Exception e) {
+            // Do nothing if no soup or bread
+        }
+        long maxDiscount = (soupCount / 2) * BREAD_PRICE_REDUCTION;
+        long possibleDiscount = breadCount * BREAD_PRICE_REDUCTION;
+        if (maxDiscount > possibleDiscount) {
+            breadDiscount = possibleDiscount;
+        } else {
+            breadDiscount = maxDiscount;
+        }
+        return breadDiscount;
     }
 
 
