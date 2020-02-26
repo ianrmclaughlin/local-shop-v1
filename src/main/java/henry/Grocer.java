@@ -7,13 +7,16 @@ import java.util.Map;
 public class Grocer {
     public long priceABasket(String freeText) {
         String tokenizedBasket = freeText
+                .replaceAll(" and "," ")
+                .replaceAll(","," ")
+                .replaceAll(" a "," 1 ")
+                .replaceAll(" an "," 1 ")
                 .replaceAll("^a ","1 ")
                 .replaceAll("^an ","1 ")
                 .replaceAll("tin.*soup",":soup,")
                 .replaceAll("loa.*bread",":bread,")
                 .replaceAll("bot.*milk",":milk,")
                 .replaceAll("apples?",":apple,")
-//                .replaceAll("apple",":apple,")
                 .replaceAll(" ","")
                 ;
 
