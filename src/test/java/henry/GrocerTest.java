@@ -112,6 +112,39 @@ public class GrocerTest {
         long basketPrice = grocer.priceABasket("6 tins of soup and 4 loaves of bread, bought today,"); // 390 + 320 - 120
         Assert.assertEquals(590,basketPrice);
     }
+    @Test
+    public void givenTwoSoupOneBreadFarFuture_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("2 tins of soup and 1 loaf of bread, bought in 7 days time,"); // 130 + 80 - 0
+        Assert.assertEquals(210,basketPrice);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Test
+    public void givenThreeSoupTwoBread_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("3 tins of soup and 2 loaves of bread, bought today,");
+        Assert.assertEquals(315,basketPrice);
+    }
+    @Test
+    public void givenSixAppleOneMilk_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("6 apples and a bottle of milk, bought today,");
+        Assert.assertEquals(190,basketPrice);
+    }
+    @Test
+    public void givenSixAppleOneMilkFuture_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("6 apples and a bottle of milk, bought in 5 days time,");
+        Assert.assertEquals(184,basketPrice);
+    }
+    @Test
+    public void givenThreeAppleTwoSoupOneBreadFuture_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("3 apples, 2 tins of soup and a loaf of bread, bought in 5 days time,");
+        Assert.assertEquals(197,basketPrice);
+    }
+
+
 
 
 
