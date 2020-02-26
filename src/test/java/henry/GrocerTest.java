@@ -143,6 +143,12 @@ public class GrocerTest {
         long basketPrice = grocer.priceABasket("3 apples, 2 tins of soup and a loaf of bread, bought in 5 days time,");
         Assert.assertEquals(197,basketPrice);
     }
+    @Test
+    public void givenOneSoup_whenGetBasketPrice_thenTwoDecimalPlaces(){
+        Grocer grocer = new Grocer();
+        String priceString = grocer.priceABasketWrapper("1 tin of soup");
+        Assert.assertEquals("0.65",priceString);
+    }
 
 
 
