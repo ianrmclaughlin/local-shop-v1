@@ -10,6 +10,7 @@ public class Grocer {
                 .replaceAll("^a ","1 ")
                 .replaceAll("tin.*soup",":soup,")
                 .replaceAll("loa.*bread",":bread,")
+                .replaceAll("bot.*milk",":milk,")
                 .replaceAll(" ","")
                 ;
 
@@ -34,6 +35,9 @@ public class Grocer {
             }
             if(itemName.equals("bread")){
                 basketCost = basketCost + itemCount * 80;
+            }
+            if(itemName.equals("milk")){
+                basketCost = basketCost + itemCount * 130;
             }
         }
 

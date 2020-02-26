@@ -40,6 +40,13 @@ public class GrocerTest {
         long basketPrice = grocer.priceABasket("a loaf of bread");
         Assert.assertEquals(80,basketPrice);
     }
+    @Test
+    public void givenThreeMilk_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("3 bottles of milk");
+        Assert.assertEquals(390,basketPrice);
+    }
+
 
 
 
