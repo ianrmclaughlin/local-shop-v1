@@ -20,6 +20,37 @@ public class Grocer {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private String getTokenizedBasket(String freeText) {
+        String tokenizedBasket = freeText
+                .replaceAll("bought today", " ")
+                .replaceAll(" and ", " ")
+                .replaceAll(",", " ")
+                .replaceAll(" a ", " 1 ")
+                .replaceAll(" an ", " 1 ")
+                .replaceAll("^a ", "1 ")
+                .replaceAll("^an ", "1 ")
+                .replaceAll("tin.*soup", ":soup,")
+                .replaceAll("loa.*bread", ":bread,")
+                .replaceAll("bot.*milk", ":milk,")
+                .replaceAll("apples?", ":apple,")
+                .replaceAll(" ", "");
+        return tokenizedBasket;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private Map<String, Long> getOrderMap(String tokenizedBasket) {
+        String[] orderArray = tokenizedBasket.split(",");
+        Map<String, Long> orderMap = new HashMap<>();
+        for (String orderLine : orderArray) {
+            String[] a = orderLine.split(":");
+            String itemName = a[1];
+            Long itemCount = Long.parseLong(a[0]);
+            orderMap.put(itemName, itemCount);
+        }
+        return orderMap;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private long getBasketCost(Map<String, Long> orderMap) {
         long basketCost = 0;
         Collection<String> cs = orderMap.keySet();
@@ -41,33 +72,4 @@ public class Grocer {
         return basketCost;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private Map<String, Long> getOrderMap(String tokenizedBasket) {
-        String[] orderArray = tokenizedBasket.split(",");
-        Map<String, Long> orderMap = new HashMap<>();
-        for (String orderLine : orderArray) {
-            String[] a = orderLine.split(":");
-            String itemName = a[1];
-            Long itemCount = Long.parseLong(a[0]);
-            orderMap.put(itemName, itemCount);
-        }
-        return orderMap;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private String getTokenizedBasket(String freeText) {
-        String tokenizedBasket = freeText
-                .replaceAll(" and ", " ")
-                .replaceAll(",", " ")
-                .replaceAll(" a ", " 1 ")
-                .replaceAll(" an ", " 1 ")
-                .replaceAll("^a ", "1 ")
-                .replaceAll("^an ", "1 ")
-                .replaceAll("tin.*soup", ":soup,")
-                .replaceAll("loa.*bread", ":bread,")
-                .replaceAll("bot.*milk", ":milk,")
-                .replaceAll("apples?", ":apple,")
-                .replaceAll(" ", "");
-        return tokenizedBasket;
-    }
 }
