@@ -10,14 +10,31 @@ public class Grocer {
     final int BREAD_PRICE = 80;
     final int MILK_PRICE = 130;
     final int APPLE_PRICE = 10;
+    final int APPLE_PRICE_DISCOUNTED = 9;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public long priceABasket(String freeText) {
+        long dayOffset = getDayOffset(freeText);
+        freeText = freeText.replaceAll(", bought in.*", "");
         String tokenizedBasket = getTokenizedBasket(freeText);
         Map<String, Long> orderMap = getOrderMap(tokenizedBasket);
-        long basketCost = getBasketCost(orderMap);
+        long basketCost = getBasketCost(orderMap,dayOffset);
         return basketCost;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private long getDayOffset(String basketContents) {
+        long dayOffset = 0;
+        if (basketContents.contains("bought in")) {
+            String dayOffsetStr = basketContents
+                    .replaceAll(".*bought in ", "")
+                    .replaceAll("days time,", "")
+                    .replaceAll(" ", "");
+            dayOffset = Long.parseLong(dayOffsetStr);
+        }
+        return dayOffset;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private String getTokenizedBasket(String freeText) {
@@ -51,7 +68,13 @@ public class Grocer {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private long getBasketCost(Map<String, Long> orderMap) {
+    private long getBasketCost(Map<String, Long> orderMap, long dayOffset) {
+        long applePrice = APPLE_PRICE;
+
+        if(dayOffset>=3){
+            applePrice = APPLE_PRICE_DISCOUNTED;
+        }
+
         long basketCost = 0;
         Collection<String> cs = orderMap.keySet();
         for (String itemName : cs) {
@@ -66,7 +89,7 @@ public class Grocer {
                 basketCost = basketCost + itemCount * MILK_PRICE;
             }
             if (itemName.equals("apple")) {
-                basketCost = basketCost + itemCount * APPLE_PRICE;
+                basketCost = basketCost + itemCount * applePrice;
             }
         }
         return basketCost;
