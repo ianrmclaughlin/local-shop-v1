@@ -76,6 +76,13 @@ public class GrocerTest {
         long basketPrice = grocer.priceABasket("1 apple, bought in 3 days time,");
         Assert.assertEquals(9,basketPrice);
     }
+    @Test
+    public void givenOneAppleBoughtInNearFuture_whenCalculateBasketPrice_thenReturnCorrectPrice(){
+        Grocer grocer = new Grocer();
+        long basketPrice = grocer.priceABasket("1 apple, bought in 2 days time,");
+        Assert.assertEquals(10,basketPrice);
+    }
+
 
 
 
