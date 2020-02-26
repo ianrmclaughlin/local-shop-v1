@@ -1,8 +1,6 @@
 package henry;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Grocer {
 
@@ -11,6 +9,7 @@ public class Grocer {
     final int MILK_PRICE = 130;
     final int APPLE_PRICE = 10;
     final int APPLE_PRICE_DISCOUNTED = 9;
+    final int ONE_DAY = 86400000;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public long priceABasket(String freeText) {
@@ -69,12 +68,7 @@ public class Grocer {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private long getBasketCost(Map<String, Long> orderMap, long dayOffset) {
-        long applePrice = APPLE_PRICE;
-
-        if(dayOffset>=3){
-            applePrice = APPLE_PRICE_DISCOUNTED;
-        }
-
+        long applePrice = getApplePrice(dayOffset);
         long basketCost = 0;
         Collection<String> cs = orderMap.keySet();
         for (String itemName : cs) {
@@ -94,5 +88,30 @@ public class Grocer {
         }
         return basketCost;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    long getApplePrice(long dayOffset) {
+        long applePrice = APPLE_PRICE_DISCOUNTED;
+        Date today = new Date();
+        Date nextMonthLastDate = getNextMonthLastDate(today);
+        long ms = today.getTime();
+        ms = ms + (ONE_DAY * dayOffset);
+        Date purchaseDate = new Date(ms);
+        if (purchaseDate.after(nextMonthLastDate) || dayOffset < 3) {
+            applePrice = APPLE_PRICE;
+        }
+        return applePrice;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    Date getNextMonthLastDate(Date nowDate) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(nowDate);
+        c.add(Calendar.MONTH, 1);
+        c.set(Calendar.DATE, c.getMaximum(Calendar.DATE));
+        Date nextDate = c.getTime();
+        return nextDate;
+    }
+
 
 }
