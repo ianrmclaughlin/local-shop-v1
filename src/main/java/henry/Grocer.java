@@ -14,6 +14,16 @@ public class Grocer {
     final int BREAD_PRICE_REDUCTION = 40;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public String priceABasketWrapper(String[] wordArray) {
+        //s = String.join ( ",", a );
+        String freeText = String.join(" ", wordArray);
+        long basketPrice = priceABasket(freeText);
+        double d = (double) basketPrice / 100;
+        String priceString = String.format("%.2f", d);
+        return priceString;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public long priceABasket(String freeText) {
         long dayOffset = getDayOffset(freeText);
         freeText = freeText.replaceAll(", bought in.*", "");
