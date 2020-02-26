@@ -17,7 +17,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'henry.Grocer'
+        attributes 'Main-Class': 'henry.Main'
     }
 }
 
