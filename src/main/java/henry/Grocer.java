@@ -8,9 +8,11 @@ public class Grocer {
     public long priceABasket(String freeText) {
         String tokenizedBasket = freeText
                 .replaceAll("^a ","1 ")
+                .replaceAll("^an ","1 ")
                 .replaceAll("tin.*soup",":soup,")
                 .replaceAll("loa.*bread",":bread,")
                 .replaceAll("bot.*milk",":milk,")
+                .replaceAll("apple",":apple,")
                 .replaceAll(" ","")
                 ;
 
@@ -38,6 +40,9 @@ public class Grocer {
             }
             if(itemName.equals("milk")){
                 basketCost = basketCost + itemCount * 130;
+            }
+            if(itemName.equals("apple")){
+                basketCost = basketCost + itemCount * 10;
             }
         }
 
